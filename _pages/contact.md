@@ -3,60 +3,96 @@ title: "Brain Cell Atlas - Contact"
 layout: gridlay
 permalink: /contact/
 ---
-<html>
-<head>
+<!-- 引用FontAwesome库 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+<!-- <h2>Contacts</h2> -->
+<br>
+<!-- <div class="col-lg-10 col-lg-offset-1 text-center"> -->
+<div class="col-lg-10 col-lg-offset-1 text-center">
+<h3><b>Xinyue Chen</b></h3>
+<h4><b>Guangzhou Laboratory</b></h4>
+<p>International Bio-island, <br/>
+Guangzhou, 510005, China</p>
+<ul class="list-unstyled">
+
+<a href="mailto:chen_xinyue@gzlab.ac.cn?subject=[Help]%20RCA">
+<li><i class="fa fa-envelope fa-fw"></i>chen_xinyue@gzlab.ac.cn</li></a>
+
+<br/>
+<h3><b>Ziliang Huang</b></h3>
+<h4><b>Guangzhou Laboratory</b></h4>
+<p>International Bio-island, <br/>
+Guangzhou, 510005, China</p>
+<ul class="list-unstyled">
+<a href="mailto:huang_ziliang@gzlab.ac.cn?subject=[Help]%20RCA">
+<li><i class="fa fa-envelope fa-fw"></i> huang_ziliang@gzlab.ac.cn</li></a><div>
+<br>
+
+<h3><b>Zhichao (Chichau) Miao</b></h3>
+<h4><b>Guangzhou Laboratory</b></h4>
+<h4><b>Guangzhou Medical University</b></h4>
+<p>International Bio-island, <br/>
+Guangzhou, 510005, China</p>
+<ul class="list-unstyled">
+<a href="mailto:miao_zhichao@gzlab.ac.cn?subject=[Help]%20RCA">
+<li><i class="fa fa-envelope fa-fw"></i> miao_zhichao@gzlab.ac.cn</li></a>
+<br/>
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3670.9607940189653!2d113.3728525!3d23.0618989!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34025549978de655%3A0xbfef76e0d9d7b9!2z5bm_5bee55Sf54mp5bKb5Zu96ZmF5YWs5a-T!5e0!3m2!1sen!2skr!4v1716198561625!5m2!1sen!2skr" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+
+      
+<footer>
+<p class="meta text-muted">
+
+
 <style>
-  h4 {
-      padding-top: 10px;
-      padding-left:10px
-    }
-  temli::before {
-    content: "\2022"; /* 使用Unicode编码表示原点 */
-    margin-right: 5px; /* 可选：调整原点与文本之间的间距 */
-    white-space: pre-line;
-  }
-  
+fa-fw {
+    width: 1.28571429em;
+    text-align: center;
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px / 1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+user agent stylesheet
+i {
+    font-style: italic;
+}
 </style>
-</head>
-<body>
-<div class="sectiontitle" style="border: 0px solid #C9C9C9; background-color: #fff; ">
-  <!-- <p class="header_box">Group Members</p> -->
-  <div class="row">
-    <div class="col-sm-6 clearfix">
-      <p><img src="{{ site.url }}{{ site.baseurl }}/images/teampic/Chichau_photo.jpg" class="img-responsive" width="25%" style="float: left;margin-right: 10px;box-shadow: 2px 2px 5px #888;" /></p>
-      <h4><a href="Email:miao_zhichao@gzlab.ac.cn">Zhichao (Chichau) Miao</a></h4>
-      <p><i>Principal Investigator of Guangzhou Lab</i></p>
-      <ul style="overflow: hidden; margin-top: 10px;padding-left: 20px;">
-        <temli>PhD <a href="http://engtemlish.ibp.cas.cn/">Institute of Biophysics, CAS</a></temli><br />
-        <temli>Chercheur at <a href="https://ibmc.cnrs.fr/en/">IBMC, CNRS</a></temli><br />
-        <temli>PostDoc at <a href="https://www.ebi.ac.uk/">EMBL-EBI</a></temli><br />
-        <temli>Visiting Scientist at <a href="https://www.sanger.ac.uk/">Wellcome Sanger Institute</a></temli><br />
-        <temli>Senior Bioinformatician at <a href="https://www.ebi.ac.uk/">EMBL-EBI</a></temli>
-      </ul>
-    </div>
-    <div class="col-sm-6 clearfix">
-      <p><img src="{{ site.url }}{{ site.baseurl }}/images/teampic/XinyueChen.jpg" class="img-responsive" width="25%" style="float: left;margin-right:10px;box-shadow: 2px 2px 5px #888;" /></p>
-      <h4><a href="Email:chen_xinyue@gzlab.ac.cn">Xinyue Chen</a></h4>
-      <p><i>PhD Candidate</i></p>
-      <ul style="overflow: hidden; margin-top: 10px;padding-left: 20px;">
-      </ul>
-    </div>
-    <div class="col-sm-6 clearfix">
-      <p><img src="{{ site.url }}{{ site.baseurl }}/images/teampic/ziliang.jpeg" class="img-responsive" width="25%" style="float: left;margin-right:10px;box-shadow: 2px 2px 5px #888;" /></p>
-      <h4><a href="Email:huang_ziliang@gzlab.ac.cn">Ziliang Huang</a></h4>
-      <p><i>Research Assistant</i></p>
-      <ul style="overflow: hidden; margin-top: 10px;padding-left: 20px;">
-      </ul>
-    </div>
-  </div>
-
-  
-
-
-</div>
-
-
-
-
-</body>
-</html>
+<style>
+    .contact {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+    .contact-item {
+      width: 45%;
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    .contact-item h3 {
+      margin-top: 0;
+    }
+    .contact-item ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .contact-item ul li {
+      margin-bottom: 5px;
+    }
+  </style>
