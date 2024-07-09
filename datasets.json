@@ -21,5 +21,12 @@
         "id": "Tumour",
         "name": "Tumour",
         "url":"https://data.braincellatlas.org/mock/Tumour_all_cirro.jsonl"
-    }
+    },
+
+    {
+        "id": "Mouse",
+        "name": "Mouse",
+        "url":"https://data.braincellatlas.org/mock/Mouse_all_cirro.jsonl"
+    },
+    
 ]
