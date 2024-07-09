@@ -1,0 +1,25 @@
+[
+    {
+        "id": "Adult",
+        "name": "Adult",
+        "url":"https://data.braincellatlas.org/mock/Adult_all_cirro.jsonl"
+    },
+
+    {
+        "id": "Fetal",
+        "name": "Fetal",
+        "url":"https://data.braincellatlas.org/mock/Fetal_all_cirro.jsonl"
+    },
+
+    {
+        "id": "Organoid",
+        "name": "Organoid",
+        "url":"https://data.braincellatlas.org/mock/Organoid_all_cirro.jsonl"
+    },
+
+    {
+        "id": "Tumour",
+        "name": "Tumour",
+        "url":"https://data.braincellatlas.org/mock/Tumour_all_cirro.jsonl"
+    }
+]
