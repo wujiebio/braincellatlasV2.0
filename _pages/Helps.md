@@ -19,7 +19,7 @@ permalink: /Helps/
 <h1>Data Viewer</h1>
 <p id="Data Viewer"> </p>
 <br>
-<p><b>*The Data Viewer may take dozens of seconds to load due to the substantial volume of data present in the Brain Cell Atlas.*</p>
+<p><b>The Data Viewer may take dozens of seconds to load due to the substantial volume of data present in the Brain Cell Atlas.</p>
 <p>The Data Viewer page features the UMAP that presents the sample characteristics and gene expressions in the Brain Cell Atlas.
 From the "Data Viewer" tab, you can choose to view a particular UMAP from Adult brain, Fetal brain, Tumour, Mouse brain and Organoids.</p>
 <img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/dataviewer.png" style='height: 100%; width: 100%; margin: 0;'>

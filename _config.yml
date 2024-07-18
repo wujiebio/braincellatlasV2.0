@@ -63,4 +63,3 @@ kramdown:
 
 permissions:
   id-token: write  # 添加这一行
-
