@@ -596,7 +596,9 @@ jQuery( document ).ready(function( $ ) {
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+<div id="csvTableContainer"></div>
 <script>
+  var imageLoaded = ''; // 添加一个全局变量用于跟踪图片加载状态
   var selectedImageId = null;
   var selectedOptions = [];
   var selectedButton = null;
@@ -647,6 +649,7 @@ jQuery( document ).ready(function( $ ) {
     selectedOptions = [option1, option2];
     resetDisplay();
     displaySelectedImage();
+    displaySelectedTable();
   }
   function resetDisplay() {
       var contentContainer = document.getElementById('contentContainer');
@@ -668,6 +671,31 @@ function displaySelectedImage() {
     /* var imagePath = 'http://localhost:4000/images/markerPage/volcano/' + imageName; */
     // 在此处显示照片，例如：
     var imageElement = document.getElementById('selectedImage');
+    if (imageElement) {
+      imageElement.onload = function() {
+        // 图片加载成功时，清除错误消息
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorMessage) {
+          errorMessage.remove();
+        }
+        imageLoaded = true; // 图片加载成功
+      };
+      // 处理图片加载错误
+      imageElement.onerror = function() {
+        console.error('Failed to load image:', imagePath);
+        imageElement.src = ''; // 清空src属性
+        imageElement.alt = '';
+        // 显示错误消息
+        var errorMessage = document.getElementById('errorMessage');
+        if (!errorMessage) {
+          errorMessage = document.createElement('div');
+          errorMessage.id = 'errorMessage';
+          errorMessage.textContent = 'No figure to show';
+          errorMessage.style.textAlign = 'center';
+          imageElement.parentNode.insertBefore(errorMessage, imageElement.nextSibling);
+        }
+        imageLoaded = false; // 图片加载失败
+      };
     imageElement.src = imagePath;
     imageElement.style.width = '500px';  // 设置宽度
     imageElement.style.height = 'auto';  // 高度自动调整
@@ -676,7 +704,25 @@ function displaySelectedImage() {
     imageElement.style.margin = '0 auto';
     console.log('Selected Image:', imagePath);
   } else {
+    console.error('Element with id "selectedImage" not found.');
+  }
+  } else {
     console.log('Please select an image and options.');
+    // 当没有图片展示时，隐藏表格并显示 "No table" 消息
+    hideTableAndShowMessage();
+  }
+}
+function hideTableAndShowMessage() {
+  var tableContainer = document.getElementById('csvTableContainer');
+  tableContainer.innerHTML = ''; // 清空表格内容
+  // 显示 "No table" 消息
+  var noTableMessage = document.getElementById('noTableMessage');
+  if (!noTableMessage) {
+    noTableMessage = document.createElement('div');
+    noTableMessage.id = 'noTableMessage';
+    noTableMessage.textContent = 'No table to show';
+    noTableMessage.style.textAlign = 'center';
+    tableContainer.appendChild(noTableMessage);
   }
 }
 // function sortTable(columnIndex) {
@@ -700,6 +746,12 @@ function displaySelectedImage() {
 //         });
 // })
 function displaySelectedTable() {
+  clearTableAndMessage();
+  if (!imageLoaded) {
+    console.log('No image to show.');
+    hideTableAndShowMessage();
+    return;
+  }
   if (selectedImageId !== null && selectedOptions.length === 2) {
     var tableName;
     var tablePath;
@@ -711,6 +763,7 @@ function displaySelectedTable() {
       tablePath = 'https://data.braincellatlas.org/markersByCellType/' + tableName;
     } else {
       console.log('Please select an image and options.');
+      hideTableAndShowMessage(); // 结束函数的执行，并显示 "No table" 消息
       return; // 结束函数的执行
     }
     console.log('Table Path:', tablePath);
@@ -720,6 +773,12 @@ function displaySelectedTable() {
       if (xhr.readyState === 4 && xhr.status === 200) {
         var csvData = xhr.responseText;
         console.log('CSV Data:', csvData);
+        // 检查是否有 "No figure to show" 消息
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorMessage && errorMessage.textContent === 'No figure to show') {
+          hideTableAndShowMessage(); // 当没有图片展示时，隐藏表格并显示 "No table" 消息
+          return; // 结束函数的执行
+        }
         var tableContainer = document.getElementById('csvTableContainer');
         // 解析 CSV 数据
         var rows = csvData.split('\n');
@@ -748,6 +807,11 @@ function displaySelectedTable() {
         }
         tableHtml += `</tbody>
         </table>`;
+        // 清除 "No table" 消息
+        var noTableMessage = document.getElementById('noTableMessage');
+        if (noTableMessage) {
+          noTableMessage.remove();
+        }
         tableContainer.innerHTML = tableHtml;
         // 初始化表格并按第二列排序
         initializeDataTable();
@@ -756,6 +820,7 @@ function displaySelectedTable() {
     xhr.send();
   } else {
     console.log('Please select an image and options.');
+    hideTableAndShowMessage(); // 结束函数的执行，并显示 "No table" 消息
   }
 }
 jQuery( document ).ready(function( $ ) {
@@ -771,6 +836,20 @@ function initializeDataTable() {
       "order": [[1, "asc"]] // 默认按第二列（索引1）升序排序
     });
   });
+}
+function clearTableAndMessage() {
+  // 清除表格内容
+  var tableContainer = document.getElementById('csvTableContainer');
+  tableContainer.innerHTML = '';
+  // 显示 "No table" 消息
+  var noTableMessage = document.getElementById('noTableMessage');
+  if (!noTableMessage) {
+    noTableMessage = document.createElement('div');
+    noTableMessage.id = 'noTableMessage';
+    noTableMessage.textContent = 'No table to show';
+    noTableMessage.style.textAlign = 'center';
+    tableContainer.appendChild(noTableMessage);
+  }
 }
 function updateSelectBoxOptions(selectBoxId, options) {
     var selectBox = document.getElementById(selectBoxId);
