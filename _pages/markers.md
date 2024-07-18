@@ -37,7 +37,7 @@ permalink: /markers/
 ATLAS
 </b-->
 <!--div class="shadow p-3 mb-5 bg-white rounded row"-->
-<br/>
+<p><b>Step1</b> Click below to select a target dataset for different analysis.</p>
 <div class="row" style="display: flex; justify-content: space-between;"> <!-- 两端对齐-->
 <div class="col-lg-3 text-center custom-column">
 <div class="img-circle card photo-card card-clickable" onclick="handleClick('Adult',this)">
@@ -110,10 +110,14 @@ ORGANOID
 </div>
 <br/>
 <div class="container">
+<p><b>Step2</b> Click the buttons to show the differentially expressed genes (DEGs) of the target Brain Region or the target Cell type.</p>
   <button id="buttonA" onclick="changeOrder('A')">By Region</button>
-  <button id="buttonB" onclick="changeOrder('B')">By Celltype</button>
+  <button id="buttonB" onclick="changeOrder('B')">By Cell type</button>
+</div>
   <br/>
-  <br/>
+
+<div class="container">
+<p><b>Step3</b> Select the target Cell type/Region to show the DEGs.</p>
   <p id="sentence"></p>
   <select id="selectBox1" style="width: 200px; margin: 0 10px" onchange="handleSelectChange()"></select>
   <select id="selectBox2" style="width: 200px; margin: 5px" onchange="handleSelectChange()"></select>
@@ -124,12 +128,13 @@ ORGANOID
 <div id="contentContainer" style="display: none;">
 <div class="container">
 <div class="image-container">
-Volcano Plot
+<b>Result1</b> Volcano Plot.
 <img id="selectedImage" src="" alt="Selected Image">
 </div>
 </div>
 <br/>
 <div class="container">
+<b>Result2</b> The table of DEGs.
 <div id="csvTableContainer" style="max-height: 500px; overflow-y: auto;"></div>
 </div>
 </div>
@@ -496,7 +501,7 @@ document.addEventListener('DOMContentLoaded', function() {
       buttonA.classList.add('active');
       buttonB.classList.remove('active');
       activeButton = buttonA;
-      sentenceElement.innerHTML = 'Search for <b>differentially expressed genes (DEG)</b> of selected cell type compared to others in the selected respiratory system region.';
+      sentenceElement.innerHTML = 'Search for <b>differentially expressed genes (DEGs)</b> of selected cell type compared to others in the selected respiratory system region.';
       selectedButton = button;
       originalOrder = true;
       resetSelectBoxes();
@@ -504,7 +509,7 @@ document.addEventListener('DOMContentLoaded', function() {
       buttonA.classList.remove('active');
       buttonB.classList.add('active');
       activeButton = buttonB;
-      sentenceElement.innerHTML = 'Search for <b>differentially expressed genes (DEG)</b> of selected respiratory system region compared to others in the selected cell type.';
+      sentenceElement.innerHTML = 'Search for <b>differentially expressed genes (DEGs)</b> of selected respiratory system region compared to others in the selected cell type.';
       selectedButton = button;
       originalOrder = false;
       resetSelectBoxes();

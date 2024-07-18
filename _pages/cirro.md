@@ -10,7 +10,7 @@ permalink: /Cirro/
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
 <link rel="manifest" href="{{ site.url }}{{ site.baseurl }}/build/manifest.json"/>
 <title>Cirro</title>
-<script defer="defer" src="{{ site.url }}{{ site.baseurl }}/build//static/js/main.26b016ba.js">
+<script defer="defer" src="{{ site.url }}{{ site.baseurl }}/build//static/js/main.bd71ad31.js">
 </script>
 </head>
 <style>body{margin:0}.cirro-active{fill:rgb(220,0,78)!important;color:#dc004e!important}.cirro-chart-legend{padding:10px;vertical-align:top;overflow:auto;font-size:14px;font-family:"Roboto Condensed",Helvetica,Arial,sans-serif}.cirro-condensed{font-size:14px;font-family:"Roboto Condensed",Helvetica,Arial,sans-serif}

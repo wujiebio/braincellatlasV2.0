@@ -136,10 +136,12 @@ permalink: /database/
 
         
 This section lists all the experimentally validated riboswitches. -->
-<div style="text-align: right;">
+<div style="text-align: left;">
+<p>You can use keywords to search.</p>
 <input type="text" id="searchBox" placeholder="Search by keyword..." onfocus="showAllSheets()" oninput="searchTables()"><br><br>
 </div>
 <div>
+<p>You can download the tables by clicking on the five buttons below.</p>
 <table id="cfttable" class="table table-hover table-bordered">
     <colgroup>
           <col style="width: 20%;">

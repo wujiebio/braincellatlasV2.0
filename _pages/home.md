@@ -6,8 +6,8 @@ sitemap: true
 permalink: /
 ---
 
-<div style="text-align:center; margin-top:0; background-color:red;">
-<a href="https://www.braincellatlas.org/index" style="color:#23265F; font-size:30px; font-weight:bold;">Old Brain Cell Atlas Website</a>
+<div style="text-align:center; margin-top:0; background-color:yellow;">
+<a href="https://www.braincellatlas.org/index" style="color:#23265F; font-size:30px;">Click here to get access to Brain Cell Atlas web portal version 1.0</a>
 </div>
 <br/>
 <br/>

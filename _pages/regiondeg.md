@@ -10,7 +10,7 @@ permalink: /regiondeg/
 ATLAS
 </b-->
 <!--div class="shadow p-3 mb-5 bg-white rounded row"-->
-<br/>
+<p><b>Step1</b> Click below to select a target dataset for different analysis.</p>
 <div class="row" style="display: flex; justify-content: space-between;"> <!-- 两端对齐-->
 <div class="col-lg-3 text-center custom-column">
 <div class="img-circle card photo-card card-clickable" onclick="handleClick('Adult',this)">
@@ -135,6 +135,7 @@ ORGANOID
 
 <br>
 <div class="container">
+<p><b>Step2</b> Select the target Region.</p>
   <b style="font-size: 24px; color: #23265F">Expression</b>
   <div id="imageIdContainer"></div>
   <br/>

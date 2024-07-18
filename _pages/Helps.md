@@ -19,13 +19,13 @@ permalink: /Helps/
 <h1>Data Viewer</h1>
 <p id="Data Viewer"> </p>
 <br>
-<p><b>*The Data Viewer may take dozens of seconds to load due to the substantial volume of data present in the Respire Cell Atlas.*</p>
-<p>The Data Viewer page features the UMAP that presents the sample characteristics and gene expressions in the Respire Cell Atlas.
-From the "Atlas" tab, you can choose to view a particular UMAP from Adult Lung, Fetal Lung, Tumour and Organoids. Then, select a lung region from the "Region" tab and click on the "Submit" button:</p>
-<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/dataviewer.png" style='height: 800px; width: auto; margin: 0;'>
+<p><b>*The Data Viewer may take dozens of seconds to load due to the substantial volume of data present in the Brain Cell Atlas.*</p>
+<p>The Data Viewer page features the UMAP that presents the sample characteristics and gene expressions in the Brain Cell Atlas.
+From the "Data Viewer" tab, you can choose to view a particular UMAP from Adult brain, Fetal brain, Tumour, Mouse brain and Organoids.</p>
+<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/dataviewer.png" style='height: 100%; width: 100%; margin: 0;'>
 <!-- <p>The left panel plot is a plotly.js module that displays the integrative UMAPs of the Adult Lung, Fetal Lung, Tumour and Organoids in the Respire Cell Atlas.</p>
 <img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/help_figure_Dataviewer_left.png" style='height: 800px; width: auto; margin: 0;'> -->
-<p>(1) By scrolling down the selection from "Colour By", you can view coloured cells from a certain attribute for the cells. Several other dimiensions to view the UMAP are described as below:
+<p>(1) By clicking  the selection from "Cell Metadata", you can view coloured cells from a certain attribute for the cells. Several other dimiensions to view the UMAP are described as below:
 A list of selectable attributes to display the UMAPs are shown in the left column.</p>
 <table class="table table-hover table-bordered">
   <thead>
@@ -36,7 +36,7 @@ A list of selectable attributes to display the UMAPs are shown in the left colum
   </thead>
   <tbody>
     <tr>
-      <td>sample</td>
+      <td>sample_ID</td>
       <td>Sample ID of the cells or nuclei.</td>
     </tr>
     <tr>
@@ -44,11 +44,11 @@ A list of selectable attributes to display the UMAPs are shown in the left colum
       <td>Author specified donor IDs, which are indicated in the original publications.</td>
     </tr>
     <tr>
-      <td>gender</td>
+      <td>donor_gender</td>
       <td>F = Female; M = Male; Unclassified = Unknown.</td>
     </tr>
     <tr>
-      <td>age</td>
+      <td>donor_age</td>
       <td>For postnatal individuals, 6 months old is denoted by 6mo; 21 years old is denoted by "21yr".
 For prenatal individuals, 9w stands for 9 gestational weeks (GW).
 For organoids, use d (days in culture)
@@ -59,7 +59,7 @@ Eg. 10d.</td>
       <td>Each donor's disease status corresponds to common names appearing in MONDO Diseased Ontology.</td>
     </tr>
     <tr>
-      <td>region</td>
+      <td>DEGregion</td>
       <td>Anatomical structure level 1 (Please find details in the first table of the Help Page).</td>
     </tr>
     <tr>
@@ -74,22 +74,22 @@ Eg. 10d.</td>
       <td>project_code</td>
       <td>Project codes are the data accession codes or strings of abbreviation of the study provided by the authors.
 Eg. GSE/SCP/E-MTAB-/PRJNA/EGAS/phs/PRJEB/SDY/SRP.</td>
+     <tr>
+      <td>seq_method</td>
+      <td>Sequencing method of the cells or nuclei.</td>
     </tr>
     <tr>
-      <td>scAnnot_Level1</td>
-      <td>The putative cell type level 1 prediction generated from scAnnot.</td>
+      <td>seq_tech</td>
+      <td>Sequencing technology of the cells or nuclei.</td>
     </tr>
-    <tr>
-      <td>scAnnot_Level2</td>
-      <td>The putative cell type level 2 (more specific) prediction generated from scAnnot.</td>
     </tr>
   </tbody>
 </table>
 
-<ul>
+<!-- <ul>
   <li>The scAnnot cell type names are models that predicted cell names based on the transcriptomic expressions and known brain cell names. The model was built using a well-annotated adult human brain snRNA dataset <a href="https://www.science.org/doi/10.1126/science.add7046">(Siletti et al, 2023)</a> and the fetal human brain scRNA resource <a href="https://www.biorxiv.org/content/10.1101/2022.10.24.513487v1">(Braun et al, 2022)</a>.</li>
   <li>You can read more about scAnnot from <a href="https://github.com/rnacentre/scAnnot">scAnnot's GitHub Page</a>.</li>
-</ul>
+</ul> -->
 
 <!-- <p><b>(2)</b> On the right panel you can view the expression of a certain gene on the UMAP from search.</p>
 <img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/help_figure_Dataviewer_right.png" style='height: 800px; width: auto; margin: 0;'>
@@ -100,7 +100,7 @@ Eg. GSE/SCP/E-MTAB-/PRJNA/EGAS/phs/PRJEB/SDY/SRP.</td>
 <p id="Portrait"> </p>
 <!-- <p class="header_box">Portrait</p> -->
 The interactive viewer shows the adult human brain and includes all the major regions from the data used in Brain Cell Atlas.
-<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/portrait_new.png" style='height: 800px; width: auto; margin: 0;'>
+<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/portrait_new.png" style='height: 100%; width: 100%; margin: 0;'>
 <table class="table table-hover table-bordered">
   <thead>
     <tr>
@@ -182,39 +182,42 @@ The cell type name is defined by the most scored prediced cell type computed fro
   <li><a href="https://doi.org/10.1038/s41590-018-0276-y">SingleR</a></li>
   <li>scAnnot - a hierarchical classification model trained based on scANVI.</li>
 </ul>
-<p>For example, choosing an atlas to start with (Adult is shown here), and compute for candidate markers within a specific region by selecting the tab <b>By Region</b> or find candidate markers of a cell type by selecting the tab <b>By CellType</b>. After selection and click on the tab <b>Markers</b>, a volcano plot will be shown and list of candidate markers are listed in the table available for downlod in pdf or csv format.</p>
+<p>For example, choosing an atlas to start with (Adult is shown here), and compute for candidate markers within a specific region by selecting the tab <b>By Region</b> or find candidate markers of a cell type by selecting the tab <b>By Cell type</b>. After selection and click on the tab <b>Markers</b>, a volcano plot will be shown and list of candidate markers are listed in the table available for downlod in pdf or csv format.</p>
 
-<div style="display: flex; justify-content: center;">
-<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/marker1_new.png" style='height: 230px; width: 1000px; margin: 0;'>
+<!-- <div style="display: flex; justify-content: center;"> -->
+<div style="display: flex;">
+<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/brain_marker1.png" style='height: 100%; width: 100%; margin: 0;'>
 </div>
-<div style="display: flex; justify-content: center;">
-<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/marker2_new.png" style='height: 600px; width: auto; margin: 0;'>
+<div style="display: flex;">
+<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/brain_marker2.png" style='height: 100%; width: 100%; margin: 0;'>
 </div>
-<div style="display: flex; justify-content: center;">
-<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/marker3.png" style='height: 600px; width: auto; margin: 0;'>
+<div style="display: flex;">
+<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/brain_marker4.png" style='height: 100%; width: 100%; margin: 0;'>
+</div>
+<div style="display: flex;">
+<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/brain_marker5.png" style='height: 100%; width: 100%; margin: 0;'>
 </div>
 
 <h1>Region DEG</h1>
 <p>Region DEG (Differential expression Genes) compares different cell types from the same region. A violin plot of the top 3 DEGs for each different cell types of the region will be shown after selection of the input.</p>
-<div style="display: flex; justify-content: center;">
-<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/regiondeg.png" style='height: 100%; width: 100%; margin: 0;'>
+<div style="display: flex">
+<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/brain_region.png" style='height: 100%; width: 100%; margin: 0;'>
 </div>
 
-<h1>CellType DEG</h1>
-<p>CellType DEG compares the same cell type from different regions. Likewise, a violin plot of the top 3 DEGs for this cell type across different region will be shown after selection of the input.</p>
-<div style="display: flex; justify-content: center;">
-<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/celltypedeg.png" style='height: 100%; width: 100%; margin: 0;'>
+<h1>Cell type DEG</h1>
+<p>Cell type DEG compares the same cell type from different regions. Likewise, a violin plot of the top 3 DEGs for this cell type across different region will be shown after selection of the input.</p>
+<div style="display: flex;">
+<img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/brain_celltype.png" style='height: 100%; width: 100%; margin: 0;'>
 </div>
 <p id="Exploration"> </p>
 <br><br>
 <h1>Exploration</h1>
 <p>This page present the statistics of Brain Cell Atlas with various of plots.<br>
-You can locate the relevant atlas and brain region to get summary information about the relevant resources in the Brain Cell Atlas. From the "Atlas" tab, you can choose a particular Atlas from Adult Brain, Fetal Brain, Tumour and Organoids. Then, select a brain region from the "Region" tab and click on the "Submit" button to view the statistics information.</p>
+You can locate the relevant atlas and brain region to get summary information about the relevant resources in the Brain Cell Atlas. From the "Data Viewer" tab, you can choose a particular Atlas from Adult Brain, Fetal Brain, Tumour and Organoids. Then, select some meta information from the "Cell Metadata" tab and click on the "COMPOSITION" button to view the statistics information.</p>
 <ul>
-  <li><b>Cell Proportion</b><br>The pie chart on the leftside shows the proportion of different cell types in the selected atlas and the barplot on the right shows the cell/nucleus counts of each cell types. The cell types are annotated with <a href="https://github.com/rnacentre/scAnnot">scAnnot</a> and using <a href="https://www.science.org/doi/10.1126/science.add7046">(Siletti et al, 2023)</a> and <a href="https://www.biorxiv.org/content/10.1101/2022.10.24.513487v1">(Braun et al, 2022)</a> as a reference.</li>
-  <li><b>Features</b><br>The violin plot shows a selected gene's expression across different cell types across the atlas. You may select a gene by scrolling down or type in the gene's name to search.</li>
+  <li><b>Cell Proportion</b><br>The bar plot shows the proportion of different donor gender in the different regions. The cell types are annotated with <a href="https://github.com/rnacentre/scAnnot">scAnnot</a> and using <a href="https://www.science.org/doi/10.1126/science.add7046">(Siletti et al, 2023)</a> and <a href="https://www.biorxiv.org/content/10.1101/2022.10.24.513487v1">(Braun et al, 2022)</a> as a reference.</li>
 </ul>
-<div style="display: flex; justify-content: center;">
+<div style="display: flex;">
 <img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/explore.png" style='height: 100%; width: 100%; margin: 0;'>
 </div>
 
@@ -222,6 +225,6 @@ You can locate the relevant atlas and brain region to get summary information ab
 <br><br>
 <h1>Dataset</h1>
 <p>The Dataset page includes all the datasets used in the Brain Cell Atlas, a full list of the studies and authors from this page can be found here. Processed data with re-annotated cell type metadata will be avaiable for download upon publication.</p>
-<div style="display: flex; justify-content: center;">
+<div style="display: flex;">
 <img src = "{{ site.url }}{{ site.baseurl }}/images/helpPage/dataset.png" style='height: 100%; width: 100%; margin: 0;'>
 </div>
