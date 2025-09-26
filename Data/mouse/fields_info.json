@@ -1,0 +1,1 @@
+{"total": 29639, "fields": ["cell_ID", "species", "seq_tech", "donor_ID", "sample_ID", "donor_sex", "donor_age", "donor_status", "original_name", "organ", "region", "subregion", "sample_status", "treatment", "project_code", "reference", "sample", "batch"], "bounds": [-21.44, -20.19, 29.43, 33.36], "h5ad_filename": "mouse.h5ad"}

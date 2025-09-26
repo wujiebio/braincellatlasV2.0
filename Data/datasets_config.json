@@ -1,0 +1,111 @@
+{
+  "datasets": [
+    {
+      "id": "Tumour",
+      "name": "Tumour",
+      "displayName": "Tumour scRNAseq",
+      "description": "Main single cell RNA-seq dataset",
+      "basePath": "/Data/Tumour",
+      "enabled": true,
+      "defaultVisualization": "umap",
+      "supportedVisualizations": ["tsne", "umap", "pca"],
+      "metadata": {
+        "species": "mouse",
+        "organ": "brain",
+        "technology": "10x",
+        "estimatedCells": 4040000,
+        "version": "1.0"
+      }
+    },
+    {
+      "id": "mouse",
+      "name": "mouse", 
+      "displayName": "mouse scRNAseq",
+      "description": "Alternative single cell RNA-seq dataset",
+      "basePath": "/Data/mouse",
+      "enabled": true,
+      "defaultVisualization": "umap",
+      "supportedVisualizations": ["tsne", "umap", "pca"],
+      "metadata": {
+        "species": "mouse",
+        "organ": "brain", 
+        "technology": "10x",
+        "estimatedCells": 2500000,
+        "version": "1.1"
+      }
+    },
+    {
+      "id": "fetal",
+      "name": "fetal", 
+      "displayName": "fetal scRNAseq",
+      "description": "Alternative single cell RNA-seq dataset",
+      "basePath": "/Data/fetal",
+      "enabled": true,
+      "defaultVisualization": "umap",
+      "supportedVisualizations": ["tsne", "umap", "pca"],
+      "metadata": {
+        "species": "fetal",
+        "organ": "brain", 
+        "technology": "10x",
+        "estimatedCells": 2500000,
+        "version": "1.1"
+      }
+    },
+    {
+      "id": "Organoid",
+      "name": "Organoid", 
+      "displayName": "Organoid scRNAseq",
+      "description": "Alternative single cell RNA-seq dataset",
+      "basePath": "/Data/Organoid",
+      "enabled": true,
+      "defaultVisualization": "umap",
+      "supportedVisualizations": ["tsne", "umap", "pca"],
+      "metadata": {
+        "species": "Organoid",
+        "organ": "brain", 
+        "technology": "10x",
+        "estimatedCells": 2500000,
+        "version": "1.1"
+      }
+    },
+    {
+      "id": "adult",
+      "name": "adult", 
+      "displayName": "adult scRNAseq",
+      "description": "Alternative single cell RNA-seq dataset",
+      "basePath": "/Data/adult",
+      "enabled": true,
+      "defaultVisualization": "umap",
+      "supportedVisualizations": ["tsne", "umap", "pca"],
+      "metadata": {
+        "species": "adult",
+        "organ": "brain", 
+        "technology": "10x",
+        "estimatedCells": 2500000,
+        "version": "1.1"
+      }
+    }
+  ],
+  "defaultDataset": "Tumour",
+  "config": {
+    "loadTimeout": 30000,
+    "cacheTTL": 300000,
+    "retryAttempts": 3,
+    "autoDetectCellCount": true
+  },
+  "visualizations": {
+    "tsne": {
+      "label": "t-SNE",
+      "description": "t-Distributed Stochastic Neighbor Embedding"
+    },
+    "umap": {
+      "label": "UMAP",
+      "description": "Uniform Manifold Approximation and Projection"
+    },
+    "pca": {
+      "label": "PCA", 
+      "description": "Principal Component Analysis"
+    }
+  }
+}
+
