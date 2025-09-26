@@ -119,10 +119,20 @@ ORGANOID
 <div class="container">
 <p><b>Step3</b> Select the target Cell type/Region to show the DEGs.</p>
   <p id="sentence"></p>
-  <select id="selectBox1" style="width: 200px; margin: 0 10px" onchange="handleSelectChange()"></select>
-  <select id="selectBox2" style="width: 200px; margin: 5px" onchange="handleSelectChange()"></select>
-  <!-- <button type="button" class="btn btn-primary btn-sm" onclick="toggleContent();displaySelectedImage();displaySelectedTable();">Markers</button> -->
-  <button type="button" class="btn btn-primary btn-sm" style="text-transform: capitalize;" onclick="toggleContent();displaySelectedImage();displaySelectedTable();">Markers</button>
+  
+  <!-- 第一层选择 -->
+  <div id="firstLevelContainer">
+    <p><b id="firstLevelLabel">Select Category:</b></p>
+    <div id="firstLevelOptions" class="selection-grid"></div>
+  </div>
+  
+  <!-- 第二层选择 -->
+  <div id="secondLevelContainer" style="display: none;">
+    <p><b id="secondLevelLabel">Select Item:</b></p>
+    <div id="secondLevelOptions" class="selection-grid"></div>
+  </div>
+  
+  <button type="button" class="btn btn-primary btn-sm" style="text-transform: capitalize; margin-top: 20px;" onclick="toggleContent();displaySelectedImage();displaySelectedTable();">Markers</button>
 </div>
 <br/>
 <div id="contentContainer" style="display: none;">
@@ -258,11 +268,6 @@ jQuery( document ).ready(function( $ ) {
 
 
 <style>
-   /* 设置固定宽度 */
-  #selectBox1, #selectBox2 {
-    width: 400px; /* 这里可以根据需要调整宽度 */
-    height: 38px
-  }
   .active {
     background-color: #23265F; 
     color: white;
@@ -300,10 +305,11 @@ jQuery( document ).ready(function( $ ) {
   var selectedImageId = null;
   var selectedOptions = [];
   var selectedButton = null;
-  var selectBox1 = document.getElementById('selectBox1');
-  var selectBox2 = document.getElementById('selectBox2');
   var originalOrder = true;
   var clickedCard = null;
+  var firstLevelSelected = null;
+  var secondLevelSelected = null;
+  var currentDataset = null;
   // document.addEventListener('DOMContentLoaded', function() {
   //   var adultButton = document.querySelector('.col-lg-3:nth-child(1) .card-clickable');
   //   adultButton.click();
@@ -316,38 +322,41 @@ jQuery( document ).ready(function( $ ) {
     clickedCard = card;
     selectedImageId = imageId;
     selectedOptions = [];
-    fetch('{{ site.url }}{{ site.baseurl }}/js/genepage/RegionDEG.json')
+    firstLevelSelected = null;
+    secondLevelSelected = null;
+    
+    // 根据Step2选择的按钮类型加载相应数据文件
+    var dataFile = '';
+    if (selectedButton === 'A') {
+      dataFile = 'region.json';  // By Region
+    } else if (selectedButton === 'B') {
+      dataFile = 'cellType.json';  // By Cell type
+    }
+    
+    if (dataFile) {
+      fetch('{{ site.url }}{{ site.baseurl }}/js/genepage/' + dataFile)
       .then(response => response.json())
       .then(data => {
-        var options = data[imageId];
-        updateSelectBoxOptions('selectBox1', options);
-        handleSelectChange(); // 确保选中第一个选项
+          // 根据Step1选择的imageId获取对应的数据集
+          currentDataset = data[imageId];  // 例如：data['Adult'] 或 data['Fetal']
+          if (currentDataset) {
+            // 获取当前数据集的所有keys（第一层选择）
+            var keys = Object.keys(currentDataset);
+            displayFirstLevelOptions(keys, selectedButton === 'A' ? 'regions' : 'cellTypes');
+            // 隐藏第二层选择
+            document.getElementById('secondLevelContainer').style.display = 'none';
+          }
       })
       .catch(error => {
-        console.error('Error:', error);
-      });
-    fetch('{{ site.url }}{{ site.baseurl }}/js/genepage/CellTypeDEG.json')
-      .then(response => response.json())
-      .then(data => {
-        var options = data[imageId];
-        updateSelectBoxOptions('selectBox2', options);
-        handleSelectChange(); // 确保选中第一个选项
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-      // resetDisplay();
-      displaySelectedImage()
+          console.error('Error loading data from ' + dataFile + ':', error);
+        });
+    }
+    resetDisplay();
   }
   function handleSelectChange() {
-    var selectBox1 = document.getElementById('selectBox1');
-    var selectBox2 = document.getElementById('selectBox2');
-    var option1 = selectBox1.options[selectBox1.selectedIndex].value;
-    var option2 = selectBox2.options[selectBox2.selectedIndex].value;
-    selectedOptions = [option1, option2];
-    resetDisplay();
-    displaySelectedImage();
-    displaySelectedTable();
+    // 这个函数现在由新的选择界面处理
+    // selectedOptions 已经在 selectFirstLevel 和 selectSecondLevel 中更新
+    console.log('Current selection:', selectedOptions);
   }
   function resetDisplay() {
       var contentContainer = document.getElementById('contentContainer');
@@ -356,13 +365,13 @@ jQuery( document ).ready(function( $ ) {
       clickMessageContainer.style.display = 'block';
     }
 function displaySelectedImage() {
-  if (selectedImageId !== null && selectedOptions.length === 2) {
+  if (selectedImageId !== null && selectedOptions.length === 2 && selectedOptions[0] && selectedOptions[1]) {
     var imageName;
     if (selectedButton === 'A') {
       imageName = selectedImageId + '_' + encodeURIComponent(selectedOptions[0]) + '_' + encodeURIComponent(selectedOptions[1]) + '.png';
     var imagePath = 'https://data.braincellatlas.org/volcano/VolcanoByRegion/' + imageName;
     } else if (selectedButton === 'B') {
-      imageName = selectedImageId + '_' + encodeURIComponent(selectedOptions[0]) + '_' + encodeURIComponent(selectedOptions[1]) + '.png';
+      imageName = selectedImageId + '_' + encodeURIComponent(selectedOptions[1]) + '_' + encodeURIComponent(selectedOptions[0]) + '.png';
     var imagePath = 'https://data.braincellatlas.org/volcano/VolcanoByCellType/' + imageName;
     }
     console.log('Image path:', imagePath); // 调试信息
@@ -450,14 +459,14 @@ function displaySelectedTable() {
     hideTableAndShowMessage();
     return;
   }
-  if (selectedImageId !== null && selectedOptions.length === 2) {
+  if (selectedImageId !== null && selectedOptions.length === 2 && selectedOptions[0] && selectedOptions[1]) {
     var tableName;
     var tablePath;
     if (selectedButton === 'A') {
       tableName = selectedImageId + '_' + encodeURIComponent(selectedOptions[0]) + '_' + encodeURIComponent(selectedOptions[1]) + '_cell_type.csv';
       tablePath = 'https://data.braincellatlas.org/markersByRegion/' + tableName;
     } else if (selectedButton === 'B') {
-      tableName = selectedImageId + '_' + encodeURIComponent(selectedOptions[0]) + '_' + encodeURIComponent(selectedOptions[1]) + '_cell_type.csv';
+      tableName = selectedImageId + '_' + encodeURIComponent(selectedOptions[1]) + '_' + encodeURIComponent(selectedOptions[0]) + '_cell_type.csv';
       tablePath = 'https://data.braincellatlas.org/markersByCellType/' + tableName;
     } else {
       console.log('Please select an image and options.');
@@ -549,19 +558,192 @@ function clearTableAndMessage() {
     tableContainer.appendChild(noTableMessage);
   }
 }
-function updateSelectBoxOptions(selectBoxId, options) {
-    var selectBox = document.getElementById(selectBoxId);
-    selectBox.innerHTML = generateOptionsHtml(options);
-    if (options.length > 0) {
-        selectBox.value = options[0]; // 默认选中第一个选项
+  // 显示第一层选择选项
+  function displayFirstLevelOptions(options, type) {
+    var container = document.getElementById('firstLevelOptions');
+    var firstLevelLabel = document.getElementById('firstLevelLabel');
+    var secondLevelLabel = document.getElementById('secondLevelLabel');
+    
+    // 更新标签文本
+    if (selectedButton === 'A') {
+      // By Region
+      firstLevelLabel.textContent = 'Select Region:';
+      secondLevelLabel.textContent = 'Select Cell Type:';
+    } else if (selectedButton === 'B') {
+      // By Cell type
+      firstLevelLabel.textContent = 'Select Cell Type:';
+      secondLevelLabel.textContent = 'Select Region:';
+    }
+    
+    container.innerHTML = '';
+    
+    options.forEach(function(option, index) {
+      var item = document.createElement('div');
+      
+      // 判断当前显示的是什么类型的选项
+      var currentType = selectedButton === 'A' ? 'region' : 'celltype';
+      
+      // 根据类型决定显示方式
+      if (currentType === 'celltype') {
+        // Cell Type 使用图片显示（卡片式）
+        item.className = 'selection-item-card';
+        
+        // 创建图标容器
+        var iconDiv = document.createElement('div');
+        iconDiv.className = 'selection-icon';
+        iconDiv.innerHTML = getIconForOption(option, 'celltype');
+        
+        // 创建文字标签
+        var labelDiv = document.createElement('div');
+        labelDiv.className = 'selection-label';
+        labelDiv.textContent = option;
+        
+        item.appendChild(iconDiv);
+        item.appendChild(labelDiv);
+      } else {
+        // Region 使用方框显示
+        item.className = 'selection-item';
+        item.textContent = option;
+      }
+      
+      item.onclick = function() {
+        selectFirstLevel(option, item);
+      };
+      
+      container.appendChild(item);
+      
+      // 默认选中第一个选项
+      if (index === 0) {
+        setTimeout(function() {
+          selectFirstLevel(option, item);
+        }, 100);
+      }
+    });
+  }
+  
+  // 获取选项对应的图标
+  function getIconForOption(option, type) {
+    if (type === 'celltype') {
+      // Cell Type 始终使用图片显示
+      var imagePath = '{{ site.url }}{{ site.baseurl }}/assets/celltype/' + encodeURIComponent(option) + '.png';
+      
+      return '<div style="width: 60px; height: 60px; border-radius: 50%; background-color: #f5f5f5; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">' + 
+             '<img src="' + imagePath + '" alt="' + option + '" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display=\'none\'; this.parentNode.innerHTML=\'' + option.substring(0, 2).toUpperCase() + '\';" />' +
+             '</div>';
+    } else {
+      // Region 始终使用方框形式显示（文字缩写）
+      return '<div style="width: 60px; height: 60px; border-radius: 50%; background-color: #f5f5f5; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; color: #333;">' + 
+             option.substring(0, 2).toUpperCase() +
+             '</div>';
     }
   }
-  function generateOptionsHtml(options) {
-    var optionsHtml = '';
-    for (var i = 0; i < options.length; i++) {
-      optionsHtml += '<option value="' + options[i] + '">' + options[i] + '</option>';
+
+  // 显示第二层选择选项
+  function displaySecondLevelOptions(options) {
+    var container = document.getElementById('secondLevelOptions');
+    container.innerHTML = '';
+    
+    // 判断第二层显示的是什么类型
+    var secondLevelType = selectedButton === 'A' ? 'celltype' : 'region';
+    
+    options.forEach(function(option, index) {
+      var item = document.createElement('div');
+      
+      // 根据类型决定显示方式
+      if (secondLevelType === 'celltype') {
+        // Cell Type 使用图片显示（卡片式）
+        item.className = 'selection-item-card';
+        
+        // 创建图标容器
+        var iconDiv = document.createElement('div');
+        iconDiv.className = 'selection-icon';
+        iconDiv.innerHTML = getIconForOption(option, 'celltype');
+        
+        // 创建文字标签
+        var labelDiv = document.createElement('div');
+        labelDiv.className = 'selection-label';
+        labelDiv.textContent = option;
+        
+        item.appendChild(iconDiv);
+        item.appendChild(labelDiv);
+      } else {
+        // Region 使用方框显示
+        item.className = 'selection-item';
+        item.textContent = option;
+      }
+      
+      item.onclick = function() {
+        selectSecondLevel(option, item);
+      };
+      container.appendChild(item);
+      
+      // 默认选中第一个选项
+      if (index === 0) {
+        setTimeout(function() {
+          selectSecondLevel(option, item);
+        }, 150);
+      }
+    });
+    
+    // 显示第二层容器
+    document.getElementById('secondLevelContainer').style.display = 'block';
+  }
+  
+  // 选择第一层选项
+  function selectFirstLevel(option, element) {
+    // 清除之前的选择（需要处理两种类型的选择项）
+    var cardItems = document.querySelectorAll('#firstLevelOptions .selection-item-card');
+    var normalItems = document.querySelectorAll('#firstLevelOptions .selection-item');
+    
+    cardItems.forEach(function(item) {
+      item.classList.remove('selected');
+    });
+    normalItems.forEach(function(item) {
+      item.classList.remove('selected');
+    });
+    
+    // 选择当前项
+    element.classList.add('selected');
+    firstLevelSelected = option;
+    
+    // 显示第二层选项
+    if (currentDataset && currentDataset[option]) {
+      displaySecondLevelOptions(currentDataset[option]);
     }
-    return optionsHtml;
+    
+    // 重置第二层选择
+    secondLevelSelected = null;
+    selectedOptions = [firstLevelSelected, secondLevelSelected];
+  }
+  
+  // 选择第二层选项
+  function selectSecondLevel(option, element) {
+    // 清除之前的选择（需要处理两种类型的选择项）
+    var cardItems = document.querySelectorAll('#secondLevelOptions .selection-item-card');
+    var normalItems = document.querySelectorAll('#secondLevelOptions .selection-item');
+    
+    cardItems.forEach(function(item) {
+      item.classList.remove('selected');
+    });
+    normalItems.forEach(function(item) {
+      item.classList.remove('selected');
+    });
+    
+    // 选择当前项
+    element.classList.add('selected');
+    secondLevelSelected = option;
+    
+    // 更新selectedOptions
+    selectedOptions = [firstLevelSelected, secondLevelSelected];
+  }
+  
+  function updateSelectBoxOptions(selectBoxId, options) {
+    // 这个函数保留以防其他地方还在使用
+    console.log('updateSelectBoxOptions is deprecated, using new selection interface');
+  }
+  function generateOptionsHtml(options) {
+    // 这个函数保留以防其他地方还在使用
+    return '';
   }
 document.addEventListener('DOMContentLoaded', function() {
     var buttonA = document.getElementById('buttonA');
@@ -584,6 +766,10 @@ document.addEventListener('DOMContentLoaded', function() {
       selectedButton = button;
       originalOrder = true;
       resetSelectBoxes();
+      // 如果已经选择了数据集，重新加载对应数据
+      if (selectedImageId && clickedCard) {
+        handleClick(selectedImageId, clickedCard);
+      }
     } else if (button === 'B') {
       buttonA.classList.remove('active');
       buttonB.classList.add('active');
@@ -593,14 +779,21 @@ document.addEventListener('DOMContentLoaded', function() {
       originalOrder = false;
       resetSelectBoxes();
       resetDisplay();
+      // 如果已经选择了数据集，重新加载对应数据
+      if (selectedImageId && clickedCard) {
+        handleClick(selectedImageId, clickedCard);
+      }
     }
  }   
   function resetSelectBoxes() {
-    if (originalOrder) {
-      selectBox1.parentNode.insertBefore(selectBox1, selectBox2);
-    } else {
-      selectBox2.parentNode.insertBefore(selectBox2, selectBox1);
-    }
+    // 清空选择界面
+    document.getElementById('firstLevelOptions').innerHTML = '';
+    document.getElementById('secondLevelOptions').innerHTML = '';
+    document.getElementById('secondLevelContainer').style.display = 'none';
+    firstLevelSelected = null;
+    secondLevelSelected = null;
+    selectedOptions = [];
+    currentDataset = null;
   }
   function toggleContent() {
     var contentContainer = document.getElementById('contentContainer');
@@ -700,5 +893,91 @@ function showImage0(photoName) {
     .btn-primary {
       font-weight: normal; /* 确保文本不加粗 */
       font-size: 17px;    /* 设置文本字体大小 */
+    }
+    
+    /* 选择网格样式 */
+    .selection-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    /* 卡片式选择项（第一层） */
+    .selection-item-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background-color: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 120px;
+      max-width: 140px;
+    }
+    
+    .selection-item-card:hover {
+      transform: translateY(-2px);
+    }
+    
+    .selection-item-card.selected {
+      /* 选中状态不改变背景 */
+    }
+    
+    .selection-icon {
+      margin-bottom: 10px;
+    }
+    
+    /* 选中状态的圆形图标边框 */
+    .selection-item-card.selected .selection-icon > div {
+      border: 3px solid #23265F !important;
+    }
+    
+    .selection-label {
+      font-size: 12px;
+      font-weight: 500;
+      text-align: center;
+      color: #333;
+      line-height: 1.2;
+    }
+    
+    .selection-item-card.selected .selection-label {
+      color: #23265F;
+      font-weight: 600;
+    }
+    
+    /* 普通选择项（第二层） */
+    .selection-item {
+      padding: 10px 15px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+      text-align: center;
+      min-width: 120px;
+    }
+    
+    .selection-item:hover {
+      border-color: #23265F;
+      background-color: #e8e8e8;
+    }
+    
+    .selection-item.selected {
+      border-color: #23265F;
+      background-color: #23265F;
+      color: white;
+      font-weight: bold;
+    }
+    
+    #firstLevelContainer, #secondLevelContainer {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fafafa;
     }
   </style>

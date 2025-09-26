@@ -17,6 +17,9 @@ include:
   - .htaccess
   - _pages
 
+exclude:
+  - singlecell/Data
+
 sass:
   sass_dir: _sass
 
